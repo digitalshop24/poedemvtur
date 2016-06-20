@@ -53,7 +53,7 @@ class CountriesController < ApplicationController
     @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
       hotels = (@resorts_without_season + @resorts).map(&:hotels).uniq
 
-      Weather.new(@hotels).call
+      Weather.new(hotels).call
     end
 
     render layout: false
@@ -65,7 +65,7 @@ class CountriesController < ApplicationController
     @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
       hotels = @resorts.map(&:hotels).uniq
 
-      Weather.new(@hotels).call
+      Weather.new(hotels).call
     end
 
     render partial: 'resort_items', layout: false
