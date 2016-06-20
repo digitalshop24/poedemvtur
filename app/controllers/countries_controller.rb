@@ -10,13 +10,18 @@ class CountriesController < ApplicationController
     @country = Country.friendly.find(params[:id])
     @hotels = @country.hotels
 
-    @resorts = Resort.
+    resort_ids = Resort.
       where(country_id: @country.id).
-      joins(:hotels).
       joins(:resort_dates).
-      includes(:resort_dates).
       where('EXTRACT(MONTH FROM resort_dates.season_end) >= ? AND EXTRACT(MONTH FROM resort_dates.season_start) <= ?', Time.now.strftime('%m'), Time.now.strftime('%m')).
-      order(:name)
+      order('resorts.name').
+      pluck(:id)
+
+    @resorts = Resort.
+      where(country_id: @country.id, id: resort_ids).
+      includes(:hotels).
+      includes(:resort_dates).
+      paginate(page: 1, per_page: 5)
 
     @min_prices = {}
 
@@ -38,17 +43,16 @@ class CountriesController < ApplicationController
 
     @resorts_without_season = @country.
       resorts.
-      joins(:hotels).
       joins(:resort_dates).
+      includes(:hotels).
       includes(:resort_dates).
+      where('resorts.id NOT IN (?)', resort_ids).
       where('EXTRACT(MONTH FROM resort_dates.season_start) > ?', Time.now.strftime('%m')).
       order(:name)
 
-    @resorts_without_season = @resorts_without_season - @resorts
-    @resorts = @resorts.paginate(page: 1, per_page: 5)
-
     @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
       hotels = (@resorts_without_season + @resorts).map(&:hotels).uniq
+
       Weather.new(@hotels).call
     end
 
@@ -57,8 +61,6 @@ class CountriesController < ApplicationController
 
   def resort_items
     populate
-
-    @resorts = @resorts.paginate(page: params[:page], per_page: 5)
 
     @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
       hotels = @resorts.map(&:hotels).uniq
@@ -82,11 +84,12 @@ class CountriesController < ApplicationController
 
     @resorts = Resort.
       where(country_id: @country.id).
-      joins(:hotels).
       joins(:resort_dates).
+      includes(:hotels).
       includes(:resort_dates).
       where('EXTRACT(MONTH FROM resort_dates.season_end) >= ? AND EXTRACT(MONTH FROM resort_dates.season_start) <= ?', Time.now.strftime('%m'), Time.now.strftime('%m')).
-      order(:name)
+      order('resorts.name').
+      paginate(page: params[:page], per_page: 5)
 
     @min_prices = {}
 
