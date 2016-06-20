@@ -73,7 +73,7 @@
   $(document).ready(function(){
     var $i = 1;
     $('#super-more-tours').on('click', '#more-button', function(){      
-        $('#more-button').attr('href', '<%=load_more_tours_path%>?requestId=<%=@request.request_id%>&page=' + $i);
+        $('#more-button').attr('href', '<%=load_more_tours_path%>?requestId=<%=@request.try(:request_id)%>&page=' + $i);
         $i = $i +1;
     });
 
