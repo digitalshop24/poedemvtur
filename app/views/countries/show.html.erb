@@ -256,7 +256,7 @@
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-4 col-sm-6">
-                        <h3 class="country-resorts-item-header" title="<%= resort.name %>"><%= resort.name %></h3>
+                        <h3 data-href="/search?utf8=✓&depart_city=Москва&arrive_place=&city_id=832&place_id=<%= resort.id %>&place_type=resort&nights_min=7&nights_max=10&date_min=<%= date_filter %>&date_max=&children=&adult=2" class="country-resorts-item-header" title="<%= resort.name %>"><%= resort.name %></h3>
                         <h6 class="country-resorts-item-country"><%= @country.name %></h6>
                       </div>
                       <div class="country-resorts-item-img visible-xs">
@@ -269,7 +269,7 @@
                               <span class="strong">Погода:</span> <%= @weather[resort.id]['mintempC'] %>°C до <%= @weather[resort.id]['maxtempC'] %>°C
                             </li>
                             <li class="country-resorts-item-info--item country-resorts-item-info--item_water">
-                              Вода — <%= @weather[resort.id]['hourly'].last['waterTemp_C'] %>°C
+                              Вода — <%= @weather[resort.id]['waterTemp_C'] %>°C
                             </li>
                           <% end %>
                           <li class="country-resorts-item-info--item country-resorts-item-info--item_beach">
@@ -537,6 +537,10 @@
 
 <script>
   $(document).ready(function() {
+    $('.country-resorts-item-header').click(function() {
+      $(location).attr('href', $(this).data('href'));
+    });
+
     $('#place').click(function() {
       $(this).text('');
     });

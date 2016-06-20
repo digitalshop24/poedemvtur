@@ -15,10 +15,18 @@ class Weather
       data = JSON.parse(response.body)
       next if data['data'].blank? || data['data']['weather'].blank?
 
-  	  result[hotel.resort_id] = data['data']['weather'].
-  	    select { |item| item['date'].to_date == (Time.now + 1.day).to_date }.first
+      weather = data['data']['weather'].
+        select { |item| item['date'].to_date == (Time.now + 1.day).to_date }.first
+
+  	  result[hotel.resort_id] = {}
+
+      result[hotel.resort_id]['mintempC'] = weather['mintempC'].to_i + 6
+      result[hotel.resort_id]['maxtempC'] = weather['maxtempC'].to_i + 6
+      result[hotel.resort_id]['waterTemp_C'] = weather['hourly'].last['waterTemp_C'].to_i
   	end
 
   	result
+  rescue
+    {}
   end
 end
