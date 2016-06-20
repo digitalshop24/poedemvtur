@@ -7,7 +7,28 @@ class CountriesController < ApplicationController
 	end
 
   def show
-    populate
+    @country = Country.friendly.find(params[:id])
+    @hotels = @country.hotels
+
+    @resorts = Resort.
+      where(country_id: @country.id).
+      joins(:hotels).
+      joins(:resort_dates).
+      includes(:resort_dates).
+      where('EXTRACT(MONTH FROM resort_dates.season_end) >= ? AND EXTRACT(MONTH FROM resort_dates.season_start) <= ?', Time.now.strftime('%m'), Time.now.strftime('%m')).
+      order(:name)
+
+    @min_prices = {}
+
+    @hotels.
+      where(resort_id: @resorts.map(&:id)).
+      joins(:search_results).
+      select('hotels.resort_id, search_results.min_price').
+      where('search_results.min_price > 0.01').
+      order(:min_price).
+      each do |res|
+        @min_prices[res['resort_id'].to_i] ||= res['min_price'].to_i
+      end
 
     @popular_resorts = @hotels.
       select('DISTINCT ON (name) resorts.name, hotels.hotel_rate').
@@ -58,7 +79,6 @@ class CountriesController < ApplicationController
 
   def populate
     @country = Country.friendly.find(params[:id])
-    @hotels = @country.hotels
 
     @resorts = Resort.
       where(country_id: @country.id).
@@ -70,7 +90,8 @@ class CountriesController < ApplicationController
 
     @min_prices = {}
 
-    @hotels.
+    Hotel.
+      where(resort_id: @resorts.map(&:id)).
       joins(:search_results).
       select('hotels.resort_id, search_results.min_price').
       where('search_results.min_price > 0.01').
