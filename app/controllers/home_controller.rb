@@ -151,7 +151,7 @@ class HomeController < ApplicationController
       json = open(weather_url).read
       res = JSON.parse(json)
       @weather = {
-        desc: res['weather'].first['description'],
+        desc: (res['weather'].first['description'] if res['weather']),
         temp: res['main']['temp'].abs.to_i,
         sign: res['main']['temp'] > 0 ? '+' : '-',
         icon: "weather/#{res['weather'].first['icon'][/[\d]+/]}.png"
