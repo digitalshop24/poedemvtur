@@ -513,7 +513,7 @@
       </div>
       <div class="container">
         <div class="container-white">
-         <% if @hotel.result_description%>
+         <% if @hotel.result_description.present? %>
            <div id="hotel-tours-info" class="hotel-tours-info hidden-xs"><%=@hotel.result_description%></div>
          <%else%>
           <div id="hotel-tours-info" class="hotel-tours-info hidden-xs"></div>
@@ -618,11 +618,11 @@
   <h2 class="clearfix"><%= @hotel.name %></h2>
   <div class="row hotel-xs-padding">
     <div class="col-sm-12 col-md-9 col-lg-9">
-      <% if @hotel.description %>
-      <%= @hotel.description %>
+      <% if @hotel.description.present? %>
+      <%= raw @hotel.description %>
     </div>
     <% else %>
-    <%= @hotel.sletat_description.html_safe %>
+    <%= raw @hotel.sletat_description %>
     <script>
                 // var src = $('#hotelDescriptionID').attr('src');
                 var src = 'http://hotels.sletat.ru/hotel_desc/?id=<%= @hotel.sletat_id %>&cssStylesheet=<%= asset_url("description.css") %>';
