@@ -776,21 +776,21 @@
      <div class="row">
       <div class="col-md-3 col-sm-4">
         <ul class="hotel-beside--list">
-          <% @hotel.nearby_hotels[0..2].each do |hotel| %>
+          <% @hotel.nearby_hotels[0..2].to_a.each do |hotel| %>
           <li><%= link_to hotel.name, hotel %></li>
           <% end %>
         </ul>
       </div>
        <div class="col-md-3 col-sm-4">
         <ul class="hotel-beside--list">
-          <% @hotel.nearby_hotels[3..5].each do |hotel| %>
+          <% @hotel.nearby_hotels[3..5].to_a.each do |hotel| %>
           <li><%= link_to hotel.name, hotel %></li>
           <% end %>
         </ul>
       </div>
        <div class="col-md-3 col-sm-4">
         <ul class="hotel-beside--list">
-          <% @hotel.nearby_hotels[6..8].each do |hotel| %>
+          <% @hotel.nearby_hotels[6..8].to_a.each do |hotel| %>
           <li><%= link_to hotel.name, hotel %></li>
           <% end %>
         </ul>
