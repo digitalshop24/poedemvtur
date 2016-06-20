@@ -35,13 +35,6 @@ class Hotel < ActiveRecord::Base
     end
     # binding.pry
     return if (info_res[:name] =~ /Экскурс/)
-      descr = nil
-      doc_description = Nokogiri::HTML(info_res[:description])
-
-      if doc_description.present? && doc_description.at_css('#hotelDescriptionID').present?
-        descr = doc_description.attr('src').gsub('http:', '')
-      end
-
       update(
         name: info_res[:name],
         sletat_photo_url: sletat_photo_url,
@@ -54,7 +47,7 @@ class Hotel < ActiveRecord::Base
         rating_overall: info_res[:rating_overall],
         rating_place: info_res[:rating_place],
         rating_service: info_res[:rating_service],
-        sletat_description: descr,
+        sletat_description: info_res[:description],
         city_center_distance: info_res[:city_center_distance],
         district: info_res[:district],
         latitude: info_res[:latitude],
@@ -160,6 +153,14 @@ class Hotel < ActiveRecord::Base
     if date
       a = date.gsub(pattern, monthes[date[pattern]].to_s)
       Date.strptime(a, '%d %m %Y')
+    end
+  end
+
+  rails_admin do
+    edit do
+      include_all_fields
+
+      exclude_fields :flights, :oil_taxes, :search_results, :tour_results
     end
   end
 end
