@@ -30,6 +30,7 @@ layout 'static'
     @questions = Question.all
     @categories = QuestionCategory.all
     @feedbacks = Feedback.all
+    @about = About.first
   end
 
   def theme_show

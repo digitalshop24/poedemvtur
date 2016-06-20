@@ -1,6 +1,8 @@
 class CountriesController < ApplicationController
   layout 'static'
 
+  before_filter :find_setting_cache, only: [:show, :resort_items]
+
   def index
 	  @countries = Country.order(:name)
 	  @categories = CountryCategory.all
@@ -45,12 +47,15 @@ class CountriesController < ApplicationController
       resorts.
       joins(:resort_dates).
       includes(:hotels).
-      includes(:resort_dates).
-      where('resorts.id NOT IN (?)', resort_ids).
+      includes(:resort_dates)
+
+    @resorts_without_season = @resorts_without_season.where('resorts.id NOT IN (?)', resort_ids) if resort_ids.present?
+
+    @resorts_without_season = @resorts_without_season.
       where('EXTRACT(MONTH FROM resort_dates.season_start) > ?', Time.now.strftime('%m')).
       order(:name)
 
-    @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
+    @weather = Rails.cache.fetch(params, expires_in: @cache_time) do
       hotels = (@resorts_without_season + @resorts).map(&:hotels).uniq
 
       Weather.new(hotels).call
@@ -62,7 +67,7 @@ class CountriesController < ApplicationController
   def resort_items
     populate
 
-    @weather = Rails.cache.fetch(params, expires_in: 3.hours) do
+    @weather = Rails.cache.fetch(params, expires_in: @cache_time) do
       hotels = @resorts.map(&:hotels).uniq
 
       Weather.new(hotels).call
@@ -74,7 +79,7 @@ class CountriesController < ApplicationController
   def show_region
   	@categories = CountryCategory.all
     @category = CountryCategory.friendly.find(params[:id])
-  	@countries = @category.countries
+  	@countries = @category.countries.order(:name)
   end
 
   private
@@ -102,5 +107,9 @@ class CountriesController < ApplicationController
       each do |res|
         @min_prices[res['resort_id'].to_i] ||= res['min_price'].to_i
       end
+  end
+
+  def find_setting_cache
+    @cache_time = ProjectSetting.find_by_slug('weather_country_cache_life_time').val
   end
 end

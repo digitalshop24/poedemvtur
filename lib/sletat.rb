@@ -92,16 +92,17 @@ module Sletat
           countryId = Country.find(params[:place_id]).sletat_id
       end
       if params[:date_min]
-        if params[:date_min].empty?
+        if params[:date_min].blank?
           s_departFrom = DateTime.now.to_date
         else
           s_departFrom = parse_date_ru(params[:date_min])
         end
       end
-      s_departTo = params[:date_max].empty? ? s_departFrom :  parse_date_ru(params[:date_max])
-      
-      s_nightsMin = params[:nights_min].empty? ? "3" : params[:nights_min]
-      s_nightsMax = params[:nights_max].empty?&&params[:nights_min].empty? ? "3" : params[:nights_max]
+
+      s_departTo = params[:date_max].blank? ? s_departFrom :  parse_date_ru(params[:date_max])
+      s_nightsMin = params[:nights_min].blank? ? "3" : params[:nights_min]
+      s_nightsMax = params[:nights_max].blank? && params[:nights_min].blank? ? "3" : params[:nights_max]
+
       if params['roundtour-price']
         priceMax = params['roundtour-price'].split(';')[1]
         priceMin = params['roundtour-price'].split(';')[0]

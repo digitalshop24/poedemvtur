@@ -8,6 +8,8 @@ class Weather
   def call
     result = {}
 
+    weather_plus = ProjectSetting.find_by_slug('plus_weather_resort').val
+
   	@hotels.each do |hotel|
       next if result[hotel.resort_id].present? || hotel.latitude.blank? || hotel.longitude.blank?
 
@@ -20,8 +22,8 @@ class Weather
 
   	  result[hotel.resort_id] = {}
 
-      result[hotel.resort_id]['mintempC'] = weather['mintempC'].to_i + 6
-      result[hotel.resort_id]['maxtempC'] = weather['maxtempC'].to_i + 6
+      result[hotel.resort_id]['mintempC'] = weather['mintempC'].to_i + weather_plus.to_i
+      result[hotel.resort_id]['maxtempC'] = weather['maxtempC'].to_i + weather_plus.to_i
       result[hotel.resort_id]['waterTemp_C'] = weather['hourly'].last['waterTemp_C'].to_i
   	end
 

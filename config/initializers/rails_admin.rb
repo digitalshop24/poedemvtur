@@ -22,7 +22,10 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
+
+    new do
+      except ['EmailTemplate', 'About', 'ProjectSetting']
+    end
 
     multiple_upload do
       only Country
@@ -32,7 +35,11 @@ RailsAdmin.config do |config|
     bulk_delete
     show
     edit
-    delete
+
+    delete do
+      except ['EmailTemplate', 'About', 'ProjectSetting']
+    end
+
     show_in_app
 
     ## With an audit adapter, you can add:

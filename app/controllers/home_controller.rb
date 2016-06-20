@@ -157,12 +157,27 @@ class HomeController < ApplicationController
         icon: "weather/#{res['weather'].first['icon'][/[\d]+/]}.png"
       }
     end
+
     @request = LoadStatus.find_by(request_id: params['requestId'])
-    if @request
-      if @request.status == 1
-        @tours = @hotel.tour_results.where(request_id: params['requestId']).order(price: :asc).limit(5)
-        @total_tours = @hotel.tour_results.where(request_id: params['requestId']).count
-      end
+
+    if @request.blank?
+      data = {}
+
+      data[:depart_city] = 'Москва'
+      data[:city_id] = 832
+      data[:place_id] = @hotel.id
+      data[:place_type] = 'hotel'
+      data[:date_min] = date_filter
+      data[:nights_min] = 7
+      data[:nights_max] = 10
+      data[:adult] = 2
+
+      @request = start_search(data)
+    end
+
+    if @request.status == 1
+      @tours = @hotel.tour_results.where(request_id: @request.request_id).order(price: :asc).limit(5)
+      @total_tours = @hotel.tour_results.where(request_id: @request.request_id).count
     end
 
     @depart_cities = DepartCity.all
@@ -246,7 +261,6 @@ class HomeController < ApplicationController
   end
 
   def search_hotel
-    puts "1111 #{params[:s_adults]}"
     @request = start_search(params)
     redirect_to "#{hotel_path(params[:hotel_id])}?requestId=#{@request.request_id}"
   end

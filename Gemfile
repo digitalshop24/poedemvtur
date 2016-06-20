@@ -37,6 +37,7 @@ gem 'will_paginate'
 gem 'dalli'
 gem 'friendly_id', '~> 5.1.0'
 gem 'faraday'
+gem 'email_validator'
 
 group :development, :test do
   gem 'pry', '~> 0.10.3'

@@ -48,7 +48,7 @@
 </style>
 <script>
   var intervalID = setInterval(function(){
-    var requestId = '<%= params[:requestId] %>';
+    var requestId = '<%= @request.request_id %>';
     var status = $('#tours').attr('data-status');
     if(requestId && status == 0){
       $.ajax({
