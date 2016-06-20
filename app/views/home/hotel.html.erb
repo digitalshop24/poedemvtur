@@ -625,7 +625,7 @@
     <%= raw @hotel.sletat_description %>
     <script>
                 // var src = $('#hotelDescriptionID').attr('src');
-                var src = 'http://hotels.sletat.ru/hotel_desc/?id=<%= @hotel.sletat_id %>&cssStylesheet=<%= asset_url("description.css") %>';
+                var src = '//hotels.sletat.ru/hotel_desc/?id=<%= @hotel.sletat_id %>&cssStylesheet=<%= asset_url("description.css") %>';
                 $('#hotelDescriptionID').attr('src', src);
                 // $('#hotelDescriptionID').attr('src', src + '&cssStylesheet=<%= asset_url("description.css") %>');
                 $('#hotelDescriptionID').attr('class', 'col-sm-12 col-md-12 col-lg-12');
