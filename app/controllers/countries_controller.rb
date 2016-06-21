@@ -56,7 +56,9 @@ class CountriesController < ApplicationController
       order(:name)
 
     @weather = Rails.cache.fetch(params, expires_in: @cache_time) do
-      hotels = (@resorts_without_season + @resorts).map(&:hotels).uniq
+      hotels = []
+
+      (@resorts_without_season + @resorts).each { |resort| hotels += resort.hotels }
 
       Weather.new(hotels).call
     end
@@ -68,7 +70,9 @@ class CountriesController < ApplicationController
     populate
 
     @weather = Rails.cache.fetch(params, expires_in: @cache_time) do
-      hotels = @resorts.map(&:hotels).uniq
+      hotels = []
+
+      @resorts.each { |resort| hotels += resort.hotels }
 
       Weather.new(hotels).call
     end
