@@ -237,8 +237,8 @@
      <% @hotel.sletat_image_urls.each do |url| %>
      <div>
       <div class="hotel-slide">
-        <a href="<%= url %>" class="fancybox" rel="hotel-gallery1">
-          <%= image_tag url %>
+        <a href="<%= url.gsub('http:', '') %>" class="fancybox" rel="hotel-gallery1">
+          <%= image_tag url.gsub('http:', '') %>
           <span class="hotel-slide--zoom icons-search"></span>
         </a>
       </div>
@@ -251,8 +251,8 @@
     <% @hotel.sletat_image_urls.each do |url| %>
     <div>
       <div class="hotel-slide">
-        <a href="<%= url %>" class="fancybox" rel="hotel-gallery1">
-          <%= image_tag url %>
+        <a href="<%= url.gsub('http:', '') %>" class="fancybox" rel="hotel-gallery1">
+          <%= image_tag url.gsub('http:', '') %>
           <span class="hotel-slide--zoom icons-search"></span>
         </a>
       </div>
@@ -765,8 +765,8 @@
     <div class="hotel-photos">
       <%if @hotel.sletat_image_urls %>
       <% @hotel.sletat_image_urls.each_with_index do |url, i| %>
-      <a href="<%= url %>" class="fancybox <%= 'hidden-sm ' if i>5 %><%='hidden-xs' if i>4 %>" rel="hotel-gallery2">
-        <%= image_tag url %>
+      <a href="<%= url.gsub('http:', '') %>" class="fancybox <%= 'hidden-sm ' if i>5 %><%='hidden-xs' if i>4 %>" rel="hotel-gallery2">
+        <%= image_tag url.gsub('http:', '') %>
       </a>
       <% end %>
       <%end%>
