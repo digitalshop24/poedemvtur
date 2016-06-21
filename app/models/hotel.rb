@@ -156,6 +156,10 @@ class Hotel < ActiveRecord::Base
     end
   end
 
+  def sletat_image_universal_urls
+    sletat_image_urls.each_with_object([]) { |url, arr| arr << url.gsub('http:', '') }
+  end
+
   rails_admin do
     edit do
       include_all_fields

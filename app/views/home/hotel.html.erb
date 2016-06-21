@@ -233,12 +233,12 @@
 <div class="hotel-slider--wrapper">
   <div class="container">
     <div class="hotel-slider hidden-xs">
-     <%if @hotel.sletat_image_urls %>
-     <% @hotel.sletat_image_urls.each do |url| %>
+     <%if @hotel.sletat_image_universal_urls.present? %>
+     <% @hotel.sletat_image_universal_urls.each do |url| %>
      <div>
       <div class="hotel-slide">
-        <a href="<%= url.gsub('http:', '') %>" class="fancybox" rel="hotel-gallery1">
-          <%= image_tag url.gsub('http:', '') %>
+        <a href="<%= url %>" class="fancybox" rel="hotel-gallery1">
+          <%= image_tag url %>
           <span class="hotel-slide--zoom icons-search"></span>
         </a>
       </div>
@@ -247,12 +247,12 @@
     <%end%>
   </div>
   <div class="hotel-slider visible-xs">
-    <%if @hotel.sletat_image_urls %>
-    <% @hotel.sletat_image_urls.each do |url| %>
+    <%if @hotel.sletat_image_universal_urls.present? %>
+    <% @hotel.sletat_image_universal_urls.each do |url| %>
     <div>
       <div class="hotel-slide">
-        <a href="<%= url.gsub('http:', '') %>" class="fancybox" rel="hotel-gallery1">
-          <%= image_tag url.gsub('http:', '') %>
+        <a href="<%= url %>" class="fancybox" rel="hotel-gallery1">
+          <%= image_tag url %>
           <span class="hotel-slide--zoom icons-search"></span>
         </a>
       </div>
@@ -763,10 +763,10 @@
 <div class="hotel-bottom">
   <div class="container">
     <div class="hotel-photos">
-      <%if @hotel.sletat_image_urls %>
-      <% @hotel.sletat_image_urls.each_with_index do |url, i| %>
-      <a href="<%= url.gsub('http:', '') %>" class="fancybox <%= 'hidden-sm ' if i>5 %><%='hidden-xs' if i>4 %>" rel="hotel-gallery2">
-        <%= image_tag url.gsub('http:', '') %>
+      <%if @hotel.sletat_image_universal_urls.present? %>
+      <% @hotel.sletat_image_universal_urls.each_with_index do |url, i| %>
+      <a href="<%= url %>" class="fancybox <%= 'hidden-sm ' if i>5 %><%='hidden-xs' if i>4 %>" rel="hotel-gallery2">
+        <%= image_tag url %>
       </a>
       <% end %>
       <%end%>

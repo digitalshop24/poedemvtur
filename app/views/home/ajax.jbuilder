@@ -7,7 +7,7 @@ end
 
 
 json.hotels @hotels do |res|
-	json.image res.sletat_image_urls.first if res.sletat_image_urls
+	json.image res.sletat_image_universal_urls.first if res.sletat_image_universal_urls.present?
 	json.type "hotel"
 	json.id res.id
 	json.name res.name
