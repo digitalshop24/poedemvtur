@@ -22,9 +22,9 @@ class Weather
 
   	  result[hotel.resort_id] = {}
 
-      result[hotel.resort_id]['mintempC'] = weather['mintempC'].to_i + weather_plus.to_i
-      result[hotel.resort_id]['maxtempC'] = weather['maxtempC'].to_i + weather_plus.to_i
-      result[hotel.resort_id]['waterTemp_C'] = weather['hourly'].last['waterTemp_C'].to_i
+      result[hotel.resort_id]['mintempC'] = weather['mintempC'].to_i
+      result[hotel.resort_id]['maxtempC'] = weather['maxtempC'].to_i
+      result[hotel.resort_id]['waterTemp_C'] = weather['hourly'].last['waterTemp_C'].to_i + weather_plus.to_i
   	end
 
   	result
