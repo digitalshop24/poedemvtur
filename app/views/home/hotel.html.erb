@@ -223,7 +223,7 @@
         <div class="hotel-rating--star"><% @hotel.stars_count.times do %>
           <img src="<%= asset_path 'hotel_star.png' %>" width="18" height="18" alt="">
           <% end %></div>
-          <span class="hotel-rating--number">~ <%= @hotel.hotel_rate.round(1) if @hotel.hotel_rate%></span>
+          <span class="hotel-rating--number">~ <%= @hotel.hotel_rate.round(1) if @hotel.hotel_rate.present? %></span>
         </div>
         <button class="hotel-addcomment btn btn-yellow" data-recalc="false" data-toggle="offcanvas" data-target="#hotel-comment" data-canvas="#site-wrap">добавить отзыв</button>
       </div>
