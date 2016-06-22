@@ -194,9 +194,6 @@ class HomeController < ApplicationController
         @tours = @hotel.tour_results.where(request_id: params['requestId']).limit(5).order(price: :asc )
         @total_tours = @hotel.tour_results.where(request_id: params['requestId']).count
         @load_more = @total_tours > 5
-        respond_to do |format|
-          format.js
-        end
       else
         @status = 'loading'
         render nothing: true
