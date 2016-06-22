@@ -68,7 +68,7 @@ class HomeController < ApplicationController
     flight_data = get_res_data 'ActualizePrice', true, parameters
     flight_data["oilTaxes"].each do |f|
       OilTax.find_or_create_by(
-        start_date: f[5], 
+        start_date: f[5],
         finish_date: f[6],
         amount: f[0],
         currency: f[1],
@@ -96,7 +96,7 @@ class HomeController < ApplicationController
   def feedback
     if simple_captcha_valid?
       params[:family] ? people = 3 : people  = 1
-      params[:date].empty? ? date = DateTime.now : date = Date.parse(params[:date]) 
+      params[:date].empty? ? date = DateTime.now : date = Date.parse(params[:date])
       rate = ((params[:meal].to_i+params[:service].to_i)/2)
       @review = Review.create(name: params[:name], date: date, comment: params[:opinion], people_number: people ,rate: rate, hotel_id: params[:hotel_id], moderated: false)
       if params[:review]
@@ -188,14 +188,16 @@ class HomeController < ApplicationController
   def check_tours
     requestId = params[:requestId]
     @hotel = Hotel.find(params[:id])
-    if LoadStatus.find_by(request_id: requestId).status == 1
-      @status = 'finished'
-      @tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).limit(5).order(price: :asc )
-      @total_tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).count
-      @load_more = @total_tours > 5
-    else
-      @status = 'loading'
-      render nothing: true
+    if LoadStatus.find_by(request_id: requestId)
+      if LoadStatus.find_by(request_id: requestId).status == 1
+        @status = 'finished'
+        @tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).limit(5).order(price: :asc )
+        @total_tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).count
+        @load_more = @total_tours > 5
+      else
+        @status = 'loading'
+        render nothing: true
+      end
     end
     # ls = LoadStatus.find_by(request_id: requestId)
     # binding.pry
@@ -213,8 +215,8 @@ class HomeController < ApplicationController
   end
 
   def search
-    
-    
+
+
     # s_nights = params["s_nights"].split('-')
     # s_departFrom = Date.parse(params['s_departFrom'])
     # s_departTo = s_departFrom + 45.days
@@ -256,7 +258,7 @@ class HomeController < ApplicationController
     if params[:place_type] == 'hotel'
       redirect_to "/hotel/#{params[:place_id]}?requestId=#{@request.request_id}&depart_city=#{@depart_city}&city_id=#{@city_id}&place_id=#{@place_id}&place_type=#{@place_type}&nights_min=#{@nights_min}&nights_max=#{@nights_max}&children=#{@children}&arrive_place=#{@arrive_place}&adults=#{@adults}"
     end
-    
+
     # @requestId = requestId
   end
 
@@ -302,7 +304,7 @@ class HomeController < ApplicationController
   def filter
       requestId = params[:requestId]
       rs = ResAmount.first.amount
-      
+
       if LoadStatus.find_by(request_id: requestId).status == 1
         @status = 'finished'
       else
@@ -320,7 +322,7 @@ class HomeController < ApplicationController
       stars << "5*" if is_true?(p[:class1])
       stars << "4*" if is_true?(p[:class2])
       stars << "3*" if is_true?(p[:class3])
-      @results = SearchResult.where(request_id: params[:requestId]).where(meal: meal, min_price: p[:priceMin]..p[:priceMax]).joins(hotel: [:star]).where('stars.name' => stars).preload(hotel: [:reviews, :star, resort: [:country]]).order(min_price: :asc) 
+      @results = SearchResult.where(request_id: params[:requestId]).where(meal: meal, min_price: p[:priceMin]..p[:priceMax]).joins(hotel: [:star]).where('stars.name' => stars).preload(hotel: [:reviews, :star, resort: [:country]]).order(min_price: :asc)
       @total = @results.count
       render 'check'
   end

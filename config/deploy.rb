@@ -7,7 +7,7 @@ set :rvm_type, :user
 set :rvm_ruby_version, '2.3.0'
 set :deploy_to, "/var/www/apps/#{app_name}"
 
-lock '3.4.0'
+lock '3.5.0'
 
 namespace :git do
   desc 'Deploy'

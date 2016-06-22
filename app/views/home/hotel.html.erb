@@ -72,7 +72,7 @@
   }, 5000)
   $(document).ready(function(){
     var $i = 1;
-    $('#super-more-tours').on('click', '#more-button', function(){      
+    $('#super-more-tours').on('click', '#more-button', function(){
         $('#more-button').attr('href', '<%=load_more_tours_path%>?requestId=<%=@request.try(:request_id)%>&page=' + $i);
         $i = $i +1;
     });
@@ -85,7 +85,7 @@
 <nav id="hotel-comment" class="navmenu navmenu-default navmenu-fixed-right offcanvas" role="navigation">
   <div class="hotel-addcomment-bar">
     <h3>
-      Добавить отзыв 
+      Добавить отзыв
       <button href="#" class="hotel-comment--close" data-toggle="offcanvas" data-target="#hotel-comment" data-canvas="#site-wrap"><i class="fa fa-times"></i></button>
     </h3>
      <%= form_for(@review, :html => {:class => "hotel-addcomment-form"}) do |f|%>
@@ -223,7 +223,7 @@
         <div class="hotel-rating--star"><% @hotel.stars_count.times do %>
           <img src="<%= asset_path 'hotel_star.png' %>" width="18" height="18" alt="">
           <% end %></div>
-          <span class="hotel-rating--number">~ <%= @hotel.hotel_rate.round(1) %></span>
+          <span class="hotel-rating--number">~ <%= @hotel.hotel_rate.round(1) if @hotel.hotel_rate%></span>
         </div>
         <button class="hotel-addcomment btn btn-yellow" data-recalc="false" data-toggle="offcanvas" data-target="#hotel-comment" data-canvas="#site-wrap">добавить отзыв</button>
       </div>
@@ -715,7 +715,7 @@
           <p><%= review.comment.html_safe %></p>
           <p class="gray hidden-xs">Отдыхал: <%= review.people_number %></p>
         </div>
-      </div>            
+      </div>
       <%end%>
       <%end%>
     </div>
@@ -752,7 +752,7 @@
           <div class="block-hotel-comments--content"><%= review.comment.html_safe %></div>
           <a href="#" class="block-hotel-comments--fulllink">Читать отзыв</a>
         </div>
-      </div>            
+      </div>
       <% end %>
       <% end %>
     </div>
