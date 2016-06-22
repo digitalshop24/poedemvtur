@@ -194,6 +194,9 @@ class HomeController < ApplicationController
         @tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).limit(5).order(price: :asc )
         @total_tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).count
         @load_more = @total_tours > 5
+        respond_to do |format|
+          format.js
+        end
       else
         @status = 'loading'
         render nothing: true
@@ -212,6 +215,9 @@ class HomeController < ApplicationController
     offset = params[:page].to_i * per_page
     @loaded = total_tours <= offset + per_page
     @tours = @hotel.tour_results.where(request_id: params['requestId']).limit(per_page).order(price: :asc ).offset(offset)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def search
