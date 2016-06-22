@@ -153,7 +153,7 @@ class HomeController < ApplicationController
       @weather = {
         desc: (res['weather'].first['description'] if res['weather']),
         temp: (res['main']['temp'].abs.to_i if res['main']),
-        sign: res['main']['temp'] > 0 ? '+' : '-' if res['main']),
+        sign: (res['main']['temp'] > 0 ? '+' : '-' if res['main']),
         icon: "weather/#{res['weather'].first['icon'][/[\d]+/]}.png"
       }
     end
