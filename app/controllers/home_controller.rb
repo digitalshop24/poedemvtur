@@ -186,13 +186,13 @@ class HomeController < ApplicationController
   end
 
   def check_tours
+    requestId = params[:requestId]
     @hotel = Hotel.find(params[:id])
-    load_status = LoadStatus.find_by_request_id(params['requestId'])
-    if load_status.present? && load_status.status == 1
+    if LoadStatus.find_by(request_id: requestId)
       if LoadStatus.find_by(request_id: requestId).status == 1
         @status = 'finished'
-        @tours = @hotel.tour_results.where(request_id: params['requestId']).limit(5).order(price: :asc )
-        @total_tours = @hotel.tour_results.where(request_id: params['requestId']).count
+        @tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).limit(5).order(price: :asc )
+        @total_tours = @hotel.tour_results.where(request_id: params['requestId'].to_i).count
         @load_more = @total_tours > 5
       else
         @status = 'loading'
