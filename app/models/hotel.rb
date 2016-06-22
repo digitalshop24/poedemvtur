@@ -157,9 +157,7 @@ class Hotel < ActiveRecord::Base
   end
 
   def sletat_image_universal_urls
-    if sletat_image_urls.present?
-      sletat_image_urls.each_with_object([]) { |url, arr| arr << url.gsub('http:', '') }
-    end
+    sletat_image_urls.each_with_object([]) { |url, arr| arr << url.gsub('http:', '') }
   end
 
   rails_admin do
