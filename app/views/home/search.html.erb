@@ -36,9 +36,9 @@ setTimeout(hidePreload,<%=delay%>);
     $('.tour-search-preload--advertising').fadeOut(500);
   }
 function meal(type)
-{ 
+{
   switch(type)
-  { 
+  {
     case "BB":
     return "ЗАВТРАКИ";
     break;
@@ -70,10 +70,10 @@ function meal(type)
     return "БЕЗ ПИТАНИЯ";
     break;
     case "AI":
-    return "ВСЕ ВКЛЮЧЕНО";   
+    return "ВСЕ ВКЛЮЧЕНО";
     case "UAL":
     return "УЛЬТРА ВСЕ ВКЛЮЧЕНО";
-    break;       
+    break;
   }
 }
 
@@ -96,7 +96,7 @@ function meal(type)
           }
         })
         }
-  
+
         function showHotels( hotels, requestId ){
             var req = requestId == undefined ? "" : "?requestId=" + requestId;
               for(var i=0; i<hotels.length; i++){
@@ -155,7 +155,7 @@ function meal(type)
           </div> \
         </div> \
       </div> \
-    </div>' 
+    </div>'
   }
                 $('#hotels').append(hotel);
               }
@@ -166,10 +166,10 @@ function meal(type)
                 $('#hotels').append('<%= j render 'subscribe' %>');
               }
             }
-  
+
               //$('.tour-filter--container').stop(true).slideUp(200);
               //$('.tour-filter--show').delay(150).stop(true).animate({'opacity' : 1},150);
-            
+
 </script>
 <%def video_code(video)%>
 <%regex = /^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/%>
@@ -342,7 +342,6 @@ function meal(type)
     <br>
     <div class="tour-search-preload--advertising">
     <%if @country.banner.url == "/banners/original/missing.png" %>
-      <img src='<%= asset_path("preload-banner.png")%>' alt="">
     <%else%>
        <%= image_tag(@country.banner.url)%>
     <%end%>
@@ -355,7 +354,7 @@ function meal(type)
        <iframe width="560" height="315" src="https://www.youtube.com/embed/<%=code%>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
     <%end%>
     <%end%>
-      
+
     </div>
   </div>
   <div class="row">
@@ -366,7 +365,7 @@ function meal(type)
 </div>
 <div id="here">
 </div>
-  
+
 <script>
 function showHotels( hotels, requestId ){
             var params = '&depart_city=<%=@depart_city%>&city_id=<%=@city_id%>&place_id=<%=@place_id%>&place_type=<%=@place_type%>&nights_min=<%=@nights_min%>&nights_max=<%=@nights_max%>&children=<%=@children%>&arrive_place=<%=@arrive_place%>&adults=<%=@adults%>'
@@ -426,7 +425,7 @@ function showHotels( hotels, requestId ){
           </div> \
         </div> \
       </div> \
-    </div>' 
+    </div>'
   }
                 $('#hotels').append(hotel);
               }
@@ -683,9 +682,9 @@ $(document).ready(function(){
                 $result = data;
                 $total = data["total"];
                 $status = data["status"];
-                
+
               }
-            })   
+            })
           }
           else{
             showHotels($result["hotels"], $('#requestId').val());
@@ -701,8 +700,8 @@ $(document).ready(function(){
         },4000)
 
       }
-      
-    })  
+
+    })
      }, 15000)
 
  setTimeout(function(){
@@ -729,9 +728,9 @@ $(document).ready(function(){
                 $result = data;
                 $total = data["total"];
                 $status = data["status"];
-                
+
               }
-            })   
+            })
           }
           else{
             if($total>0)
@@ -740,7 +739,7 @@ $(document).ready(function(){
             }
             else
             {
-             $('#total').html('Ничего не найдено<br><br><p style="font-size: 20px;">Мы не нашли туры в <%=@country.name%> c вылетом из Вашего города в указанную дату.</p> <p style="font-size: 20px;">Попробуйте изменить параметры поиска</p><br> <p style="font-size: 20px;">или перезвонить нам по телефону <b>8 800 500 53 16</b></p>') 
+             $('#total').html('Ничего не найдено<br><br><p style="font-size: 20px;">Мы не нашли туры в <%=@country.name%> c вылетом из Вашего города в указанную дату.</p> <p style="font-size: 20px;">Попробуйте изменить параметры поиска</p><br> <p style="font-size: 20px;">или перезвонить нам по телефону <b>8 800 500 53 16</b></p>')
             }
             clearInterval(intervalID);
           }
@@ -748,7 +747,7 @@ $(document).ready(function(){
         },4000)
 
       }
-      
+
     })
  }, 15500)
 
