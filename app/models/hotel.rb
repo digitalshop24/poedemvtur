@@ -95,7 +95,7 @@ class Hotel < ActiveRecord::Base
   def self.get_or_update(hid)
     # hotel = find_by(sletat_id: hid)
     hotel = where(sletat_id: hid).first_or_create
-    client = hotel.soap_client 
+    client = hotel.soap_client
     if (!hotel.latitude || (Time.now - hotel.updated_at > 7.days))
       res = client.call :get_hotel_information, message: { hotel_id: hid }
       info_res = res.body[:get_hotel_information_response][:get_hotel_information_result]
@@ -157,7 +157,9 @@ class Hotel < ActiveRecord::Base
   end
 
   def sletat_image_universal_urls
-    sletat_image_urls.each_with_object([]) { |url, arr| arr << url.gsub('http:', '') }
+    if sletat_image_urls.present?
+      sletat_image_urls.each_with_object([]) { |url, arr| arr << url.gsub('http:', '') }
+    end
   end
 
   rails_admin do
